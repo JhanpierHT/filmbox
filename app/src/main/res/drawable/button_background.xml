@@ -1,0 +1,28 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado seleccionado -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#5400ff" />
+            <corners android:radius="24dp" />
+            <stroke android:width="2dp" android:color="#5400ff" />
+        </shape>
+    </item>
+
+    <!-- Estado presionado -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#5400ff" /> <!-- Fondo azul al presionar -->
+            <corners android:radius="24dp" />
+            <stroke android:width="2dp" android:color="#5400ff" />
+        </shape>
+    </item>
+
+    <!-- Estado por defecto (no seleccionado) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" /> <!-- Fondo transparente -->
+            <corners android:radius="24dp" />
+            <stroke android:width="2dp" android:color="#5400ff" />
+        </shape>
+    </item>
+</selector>

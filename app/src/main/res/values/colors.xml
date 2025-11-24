@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="blue_button">#0083cb</color>
+    <color name="pink">#BE34E8</color>
+    <color name="pink_translucent">#1ABE34E8</color>
+    <color name="orange">#FF7D00</color>
+    <color name="yellow">#FFB800</color>
+    +
+    <color name="colorPrimary">#0078FF</color>
+    <color name="colorPrimaryVariant">#3F00CC</color> <!-- versión más oscura -->
+    <color name="colorOnPrimary">#FFFFFF</color> <!-- texto blanco encima -->
+    <color name="background">#000000</color> <!-- negro de fondo -->
+    <color name="onBackground">#FFFFFF</color> <!-- texto blanco sobre fondo negro -->
+
+    <color name="red">#FF4081</color>
+
+    <color name="blue_translucent_90">#E60078FF</color> <!-- 90% opacidad -->
+    <color name="blue_translucent_70">#B30078FF</color> <!-- 70% opacidad -->
+    <color name="blue_translucent_50">#800078FF</color> <!-- 50% opacidad -->
+    <color name="blue_translucent_30">#4D0078FF</color> <!-- 30% opacidad -->
+    <color name="blue_translucent_10">#1A0078FF</color> <!-- 10% opacidad -->
+
+</resources>

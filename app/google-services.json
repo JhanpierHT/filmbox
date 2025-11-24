@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "759892287550",
+    "project_id": "filmbox-8df8a",
+    "storage_bucket": "filmbox-8df8a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759892287550:android:f602e04ddf93bdc9eb316f",
+        "android_client_info": {
+          "package_name": "com.jhanpier.filmbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759892287550-rhqfnvdbcot9v3kvisnm2msrgoj96u0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jhanpier.filmbox",
+            "certificate_hash": "f225f037395e7e78f6597caad024099e8aa3d9c3"
+          }
+        },
+        {
+          "client_id": "759892287550-tn0ki98t5jgpkp606j5flmastn1vp94m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIZHute8njCL6lt9HpXwD86x2jMCDjpjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759892287550-tn0ki98t5jgpkp606j5flmastn1vp94m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@android:color/black"
+    android:id="@+id/fragmentCustomizeFeed">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleCustomize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/customize_your_recommendation_feed"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:text="@string/choose_at_least_3_favorite_genres"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/genreChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="false"
+            app:selectionRequired="false"
+            app:chipSpacing="8dp">
+
+            <!-- Ejemplo de Chips -->
+            <com.google.android.material.chip.Chip
+                android:text="@string/action"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checkable="true" />
+            <com.google.android.material.chip.Chip
+                android:text="@string/comedy"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checkable="true" />
+            <com.google.android.material.chip.Chip
+                android:text="@string/horror"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checkable="true" />
+            <!-- Agrega más... -->
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:text="@string/now_pick_3_movies_you_like"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/movieChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="false"
+            app:selectionRequired="false"
+            app:chipSpacing="8dp">
+
+            <com.google.android.material.chip.Chip
+                android:text="@string/inception"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checkable="true" />
+            <com.google.android.material.chip.Chip
+                android:text="@string/titanic"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checkable="true" />
+            <com.google.android.material.chip.Chip
+                android:text="@string/the_matrix"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:checkable="true" />
+            <!-- Agrega más... -->
+        </com.google.android.material.chip.ChipGroup>
+
+        <Button
+            android:id="@+id/nextFeedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/btn_background_selector"
+            android:textColor="@color/btn_text_color_selector"/>
+    </LinearLayout>
+</ScrollView>
