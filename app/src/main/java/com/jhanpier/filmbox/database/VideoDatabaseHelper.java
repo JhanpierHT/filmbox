@@ -19,6 +19,7 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(
                 "CREATE TABLE videos (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -44,13 +45,6 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    public void resetDatabaseManual() {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DROP TABLE IF EXISTS videos");
-        db.execSQL("DROP TABLE IF EXISTS movies_fav");
-        onCreate(db);
-    }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS videos");
@@ -58,6 +52,9 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // ---------------------------------------------------
+    // INSERTAR UNA PELÍCULA
+    // ---------------------------------------------------
     public long insertMovie(Movie m) {
         ContentValues cv = new ContentValues();
         cv.put("title", m.getTitle());
@@ -67,91 +64,84 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
         cv.put("videoUrl", m.getVideoUrl());
         cv.put("imageUrl", m.getImageUrl());
         cv.put("category", m.getCategory());
-
         return getWritableDatabase().insert("videos", null, cv);
     }
 
-    public boolean isMovieFavorite(String title) {
+    // ---------------------------------------------------
+    // ELIMINAR TODAS LAS PELÍCULAS
+    // ---------------------------------------------------
+    public void clearMovies() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("videos", null, null);
+    }
+
+    // ---------------------------------------------------
+    // OBTENER TODAS LAS PELÍCULAS
+    // ---------------------------------------------------
+    // ---------------------------------------------------
+// OBTENER TODAS LAS PELÍCULAS
+// ---------------------------------------------------
+    public List<Movie> getAllMovies() {
+        List<Movie> list = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT 1 FROM movies_fav WHERE title = ?", new String[]{title});
-        boolean exists = cursor.moveToFirst();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM videos", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Movie m = new Movie(
+                        cursor.getString(cursor.getColumnIndexOrThrow("title")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("year")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("description")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("authors")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("videoUrl")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("imageUrl")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("category")),
+                        0 // progreso por defecto
+                );
+
+                list.add(m);
+            } while (cursor.moveToNext());
+        }
+
         cursor.close();
+        db.close();
+
+        return list;
+    }
+
+
+    public boolean isMovieFavorite(String title) {
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT 1 FROM movies_fav WHERE title = ?",
+                new String[]{title}
+        );
+        boolean exists = c.moveToFirst();
+        c.close();
         return exists;
     }
 
     public void toggleFavorite(Movie movie) {
-        if (isMovieFavorite(movie.getTitle())) {
-            getWritableDatabase().delete("movies_fav", "title = ?", new String[]{movie.getTitle()});
+        if (isFavorite(movie)) {
+            removeFavorite(movie);
         } else {
             addFavorite(movie);
         }
     }
 
-    public List<Movie> getAllMovies() {
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM videos", null);
-        List<Movie> list = new ArrayList<>();
-
-        if (cursor.moveToFirst()) {
-            do {
-                Movie m = new Movie(
-                        cursor.getString(cursor.getColumnIndexOrThrow("title")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("year")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("description")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("authors")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("videoUrl")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("imageUrl")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("category"))
-                );
-                list.add(m);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return list;
-    }
-
-    public void deleteAllMovies() {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete("movies", null, null);
-        db.close();
-    }
-
-    public List<Movie> getAllFavorites() {
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM movies_fav", null);
-        List<Movie> list = new ArrayList<>();
-
-        if (cursor.moveToFirst()) {
-            do {
-                Movie m = new Movie(
-                        cursor.getString(cursor.getColumnIndexOrThrow("title")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("year")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("description")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("authors")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("videoUrl")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("imageUrl")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("category"))
-                );
-                list.add(m);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return list;
-    }
-
     public void addFavorite(Movie movie) {
-        if (!isFavorite(movie)) {
-            ContentValues cv = new ContentValues();
-            cv.put("title", movie.getTitle());
-            cv.put("year", movie.getYear());
-            cv.put("description", movie.getDescription());
-            cv.put("authors", movie.getAuthors());
-            cv.put("videoUrl", movie.getVideoUrl());
-            cv.put("imageUrl", movie.getImageUrl());
-            cv.put("category", movie.getCategory());
+        if (isFavorite(movie)) return;
 
-            getWritableDatabase().insert("movies_fav", null, cv);
-        }
+        ContentValues cv = new ContentValues();
+        cv.put("title", movie.getTitle());
+        cv.put("year", movie.getYear());
+        cv.put("description", movie.getDescription());
+        cv.put("authors", movie.getAuthors());
+        cv.put("videoUrl", movie.getVideoUrl());
+        cv.put("imageUrl", movie.getImageUrl());
+        cv.put("category", movie.getCategory());
+
+        getWritableDatabase().insert("movies_fav", null, cv);
     }
 
     public void removeFavorite(Movie movie) {
@@ -171,4 +161,38 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
+
+    public List<Movie> getContinueWatchingMovies() {
+        return new ArrayList<>();
+    }
+
+    public List<Movie> getAllFavorites() {
+        List<Movie> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM movies_fav", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Movie m = new Movie(
+                        cursor.getString(cursor.getColumnIndexOrThrow("title")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("year")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("description")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("authors")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("videoUrl")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("imageUrl")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("category")),
+                        0
+                );
+
+                list.add(m);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return list;
+    }
+
 }

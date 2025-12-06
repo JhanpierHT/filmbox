@@ -72,7 +72,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_favorite_border"
                     android:contentDescription="@string/favorito"
-                    android:tint="@color/red" />
+                    card_view:tint="@color/red" />
 
                 <ImageButton
                     android:id="@+id/btnMoreInfo"
@@ -81,8 +81,8 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/mas_informaci_n"
-                    android:tint="@color/colorPrimary"
-                    android:layout_marginStart="16dp" />
+                    android:layout_marginStart="16dp"
+                    card_view:tint="@color/colorPrimary" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

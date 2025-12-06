@@ -18,26 +18,26 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config">
 
-        <!--<activity android:name="com.jhanpier.filmbox.ui.SignatureActivity" />-->
-
         <activity android:name="com.jhanpier.filmbox.ui.MovieDetailActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.VideosActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.ProfileActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.FavoritesActivity" android:exported="false" />
 
         <activity
-            android:name="com.jhanpier.filmbox.ui.VideoPlayerActivity"
-            android:screenOrientation="landscape"
-            android:exported="false" />
+            android:name=".ui.VideoPlayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false">
+        </activity>
 
-        <activity android:name="com.jhanpier.filmbox.ui.DetailActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.HomeActivity" android:exported="false" />
-        <activity android:name="com.jhanpier.filmbox.ui.MainActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.ProfileSelectionActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.LoginChoiceActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.RegisterActivity" android:exported="false" />
         <activity android:name="com.jhanpier.filmbox.ui.LoginActivity" android:exported="false" />
-        <activity android:name=".ui.EditProfileActivity" />
+        <activity android:name="com.jhanpier.filmbox.ui.EditProfileActivity" android:exported="false" />
+        <activity android:name="com.jhanpier.filmbox.ui.AvatarSelectorActivity" android:exported="false" />
+
+
 
 
         <activity android:name="com.jhanpier.filmbox.ui.WelcomeActivity" android:exported="false" />

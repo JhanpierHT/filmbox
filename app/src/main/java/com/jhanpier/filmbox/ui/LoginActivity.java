@@ -1,13 +1,11 @@
 package com.jhanpier.filmbox.ui;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.*;
@@ -22,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
     private static final int RC_SIGN_IN = 9001;
-    private static final String PREFS_NAME = "prefs";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_REMEMBER = "remember";
@@ -34,12 +31,11 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        final EditText emailInput = findViewById(R.id.emailInput);
-        final EditText passwordInput = findViewById(R.id.passwordInput);
-        final CheckBox rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
+        EditText emailInput = findViewById(R.id.emailInput);
+        EditText passwordInput = findViewById(R.id.passwordInput);
+        CheckBox rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
         Button loginButton = findViewById(R.id.LoginButton);
         LinearLayout googleButton = findViewById(R.id.googleButton);
-        LinearLayout facebookButton = findViewById(R.id.facebookButton);
 
         loadCredentials(emailInput, passwordInput, rememberMeCheckBox);
 
@@ -52,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mostrarTerminosYCondiciones(email, password, rememberMe);
+
+            realizarLogin(email, password, rememberMe);
         });
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -61,16 +58,12 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         googleSignInClient = GoogleSignIn.getClient(this, gso);
-
         googleButton.setOnClickListener(view -> signInWithGoogle());
-
-        facebookButton.setOnClickListener(view ->
-                Toast.makeText(this, "Facebook login aún no implementado", Toast.LENGTH_SHORT).show());
     }
 
     private void saveCredentials(String email, String password) {
-        getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .edit()
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        prefs.edit()
                 .putString(KEY_EMAIL, email)
                 .putString(KEY_PASSWORD, password)
                 .putBoolean(KEY_REMEMBER, true)
@@ -78,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void clearCredentials() {
-        getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        getSharedPreferences("prefs", MODE_PRIVATE)
                 .edit()
                 .remove(KEY_EMAIL)
                 .remove(KEY_PASSWORD)
@@ -87,78 +80,96 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loadCredentials(EditText emailInput, EditText passwordInput, CheckBox rememberMeCheckBox) {
-        boolean remember = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getBoolean(KEY_REMEMBER, false);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean remember = prefs.getBoolean(KEY_REMEMBER, false);
+
         if (remember) {
-            String savedEmail = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).getString(KEY_EMAIL, "");
-            String savedPassword = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).getString(KEY_PASSWORD, "");
-            emailInput.setText(savedEmail);
-            passwordInput.setText(savedPassword);
+            emailInput.setText(prefs.getString(KEY_EMAIL, ""));
+            passwordInput.setText(prefs.getString(KEY_PASSWORD, ""));
             rememberMeCheckBox.setChecked(true);
         }
     }
 
+    // ---------------- GOOGLE LOGIN ------------------
+
     private void signInWithGoogle() {
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(googleSignInClient.getSignInIntent(), RC_SIGN_IN);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                Toast.makeText(this, "Google sign in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        if (account == null) return;
+
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(this, "Google sign in successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, ProfileSelectionActivity.class));
-                        finish();
-                    } else {
-                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(this, "Error iniciando con Google", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+                    FirebaseUser user = auth.getCurrentUser();
+
+                    if (user != null) {
+                        // 1. GUARDAR EL EMAIL QUE USARÁ ProfileManager
+                        SharedPreferences prefsUser = getSharedPreferences("login_data", MODE_PRIVATE);
+                        prefsUser.edit().putString("email", user.getEmail()).apply();
+                    }
+
+                    // 🚨 CORRECCIÓN CLAVE: Borrar el ID de perfil seleccionado del usuario anterior.
+                    SharedPreferences prefsActual = getSharedPreferences("perfil_actual", MODE_PRIVATE);
+                    prefsActual.edit().remove("id").apply();
+
+                    // 🚀 MEJORA DE NAVEGACIÓN: Asegurar que el Login se cierre permanentemente
+                    Intent intent = new Intent(this, ProfileSelectionActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 });
     }
 
-    private void mostrarTerminosYCondiciones(String email, String password, boolean rememberMe) {
-        new AlertDialog.Builder(this)
-                .setTitle("Términos y Condiciones")
-                .setMessage("Al continuar, aceptas los siguientes términos de uso de MoviFix:\n\n" +
-                        "• Solo usarás la aplicación MoviFix con fines personales, educativos o de entretenimiento...\n\n" +
-                        "• ...")
-                .setCancelable(false)
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
-                        realizarLogin(email, password, rememberMe);
-                    }
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
-    }
+    // ---------------- LOGIN NORMAL ------------------
 
     private void realizarLogin(String email, String password, boolean rememberMe) {
         auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        if (rememberMe) saveCredentials(email, password); else clearCredentials();
-                        Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, HomeActivity.class));
-                        finish();
-                    } else {
-                        Toast.makeText(this, "Error: " + (task.getException() != null ? task.getException().getMessage() : "unknown"),
-                                Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(task -> {
+
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+                    if (rememberMe) saveCredentials(email, password);
+                    else clearCredentials();
+
+                    // 1. GUARDAR EMAIL PARA ProfileManager
+                    SharedPreferences prefsUser = getSharedPreferences("login_data", MODE_PRIVATE);
+                    prefsUser.edit().putString("email", email).apply();
+
+                    // 🚨 CORRECCIÓN CLAVE: Borrar el ID de perfil seleccionado del usuario anterior.
+                    SharedPreferences prefsActual = getSharedPreferences("perfil_actual", MODE_PRIVATE);
+                    prefsActual.edit().remove("id").apply();
+
+
+                    // 🚀 MEJORA DE NAVEGACIÓN: Asegurar que el Login se cierre permanentemente
+                    Intent intent = new Intent(this, ProfileSelectionActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 });
     }
 }

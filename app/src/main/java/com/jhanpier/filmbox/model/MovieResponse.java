@@ -1,26 +1,22 @@
 package com.jhanpier.filmbox.model;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class MovieResponse {
 
-    @SerializedName("Search")
-    private List<Movie> search;
+    private List<Movie> movies;
 
-    public MovieResponse(List<Movie> search) {
-        this.search = search;
+    public MovieResponse(List<Movie> movies) {
+        this.movies = movies;
     }
 
-    public MovieResponse() {
-        this.search = null;
+    public MovieResponse() {}
+
+    public List<Movie> getMovies() {
+        return movies;
     }
 
-    public List<Movie> getSearch() {
-        return search;
-    }
-
-    public void setSearch(List<Movie> search) {
-        this.search = search;
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 }

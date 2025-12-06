@@ -46,7 +46,7 @@
                 android:id="@+id/logo"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:src="@drawable/logo_two"
+                android:src="@drawable/logo_filmbox"
                 app:layout_constraintTop_toTopOf="@id/headerImage"
                 app:layout_constraintBottom_toBottomOf="@id/headerImage"
                 app:layout_constraintStart_toStartOf="parent"

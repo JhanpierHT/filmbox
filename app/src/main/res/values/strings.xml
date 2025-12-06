@@ -3,44 +3,37 @@
     <string name="default_web_client_id">1234567890-abcde12345fghij67890klmnop.apps.googleusercontent.com</string>
 
     <!-- Buttons -->
-    <string name="txt_btn_login">Log in</string>
-    <string name="txt_btn_register">Sign up</string>
-    <string name="try_as_guest">Try as Guest!</string>
-    <string name="continue_with_google">Continue with Google</string>
-    <string name="continue_with_facebook">Continue with Facebook</string>
-    <string name="sign_in">Sign in</string>
-    <string name="don_t_have_an_account_sign_up">Don’t have an account? <font color='#0078FF'>Sign up</font></string>
-    <string name="already_have_an_account_sign_in">Already have an account? <font color='#0078FF'>Sign in</font></string>
+    <string name="try_as_guest">Iniciar como invitado</string>
+    <string name="continue_with_google">Continuar con Google</string>
+    <string name="continue_with_facebook">Continuar con Facebook</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="don_t_have_an_account_sign_up">¿No tienes una cuenta? <font color='#0078FF'>Registrarse</font></string>
+    <string name="already_have_an_account_sign_in">¿Ya tienes una cuenta? <font color='#0078FF'>Iniciar sesión</font></string>
 
-    <string name="login">Login</string>
+    <string name="login">Ingresar</string>
 
     <!-- Texts -->
-    <string name="welcome_to_filmbox">Welcome to FilmBox</string>
-    <string name="message_welcome">The ultimate movie streaming app of the century to brighten your days</string>
-    <string name="login_registration">Login &amp; Registration</string>
-    <string name="start_streaming_not_with_black_tv">Start streaming, not with\n black TV</string>
-    <string name="or">OR</string>
-    <string name="meesage_welcome">The ultimate movie streaming app of the\ncentury to brighten your days</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="register">Register</string>
-    <string name="forgot_password">Forgot your password? <font color='#0078FF'>Recover it here</font></string>
-    <string name="create_your_account">Create your account</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="facebook">Facebook</string>
-    <string name="google">Google</string>
-    <string name="or_continue_with">or continue with</string>
-    <string name="remember_me">Remember me</string>
-    <string name="sign_up">Sign up</string>
-    <string name="Login_to_your_account">Login to Your Account</string>
-    <string name="profile_background">Profile Background</string>
-    <string name="add_profile">Add o new profile</string>
-    <string name="done">Done</string>
-    <string name="skip">Skip</string>
-    <string name="who_s_watching">Who\'s Watching?</string>
-    <string name="profile_1">Profile 1</string>
+    <string name="welcome_to_filmbox">Bienvenid@ a FilmBox</string>
+    <string name="message_welcome">Elige tu próxima aventura. ¡La diversión está a un clic de distancia!</string>
+    <string name="login_registration">Iniciar sesión o Registrarse</string>
+    <string name="start_streaming_not_with_black_tv">Elige y disfruta</string>
+    <string name="or">O</string>
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="register">Registro</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña? <font color='#0078FF'>Recuperar</font></string>
+    <string name="create_your_account">Crea tu cuenta</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="or_continue_with">o continuar con</string>
+    <string name="remember_me">Recordar</string>
+    <string name="Login_to_your_account">Iniciar sesión en su cuenta</string>
+    <string name="add_profile">Añadir un nuevo perfil</string>
+    <string name="done">Listo</string>
+    <string name="skip">Omitir</string>
+    <string name="who_s_watching">Selecciona tu perfil!</string>
+    <string name="profile_1">Perfil 1</string>
     <string name="add_profile_icon">Profile\n</string>
-    <string name="edit_profiles">Edit Profiles</string>
+    <string name="edit_profiles">Editar perfil</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -60,9 +53,6 @@
     <string name="congratulations">🎉 Congratulations!</string>
     <string name="your_profile_has_been_set_up_successfully">Your profile has been set up successfully.</string>
     <string name="go_to_home">Go to Home</string>
-    <string name="t_tulo_de_pel_cula">Título de película</string>
-    <string name="rating">Rating</string>
-    <string name="movie_poster">Movie Poster\n</string>
     <string name="title">Title</string>
     <string name="year">Year</string>
     <string name="poster_image">PosterImg</string>
@@ -71,28 +61,13 @@
     <string name="imdb_id_tt1234567">IMDb ID: tt1234567</string>
     <string name="sinopsis_aqu_ir_la_descripci_n_o_sinopsis_de_la_pel_cula">Sinopsis: Aquí irá la descripción o sinopsis de la película.</string>
     <string name="genre">Acción</string>
-    <string name="pel_culas">Películas</string>
-    <string name="nombre_de_la_pel_cula">Nombre de la película</string>
-    <string name="m_s_informaci_n">Más información</string>
-    <string name="ver_pel_cula">Ver Película</string>
-    <string name="m_s_info">Ver Pelicula</string>
     <string name="fullscreen">Pantalla completa</string>
-    <!--<string name="limpiar">Limpiar</string>-->
-    <!--<string name="guardar_firma">Guardar Firma</string>-->
     <string name="favorito">Favoritos</string>
-    <string name="series">Series</string>
-    <string name="favoritos">Favoritos</string>
-    <string name="peliculas">Películas</string>
     <string name="mas_informaci_n">Más información</string>
-    <!--<string name="firma_aqu">Firma aquí</string>-->
-    <!--<string name="limpiar_a">Limpiar</string>-->
-    <!--<string name="tu_firma_digital">Tu Firma Digital</string>-->
-    <!--<string name="firmar_actualizar_firma">Firmar / Actualizar Firma</string>-->
-    <string name="wilmer_huaripata">Wilmer Huaripata</string>
-    <string name="WilmerJhanpier_gmail_com">jhanpier@gmail.com</string>
-    <string name="editar_perfil">Editar Perfil</string>
     <string name="buscar_por_voz">Buscar por voz</string>
-    <string name="mas_informacion">Mas informacion</string>
+
+    <string name="mostrar_mas">Buscar por voz</string>
+    <string name="mostrar_menos">Buscar por voz</string>
 
     <string-array name="categories_array">
         <item>Todos</item>

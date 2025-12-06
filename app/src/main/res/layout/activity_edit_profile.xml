@@ -14,16 +14,19 @@
             android:id="@+id/imgAvatarEdit"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/default_avatar"
+            android:src="@drawable/avatar_1"
             android:background="@drawable/circle_bg"
             android:scaleType="centerCrop"
             android:layout_marginBottom="15dp" />
 
+
         <Button
-            android:id="@+id/btnCambiarFoto"
+            android:id="@+id/btnCambiarAvatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cambiar foto"
+            android:text="Cambiar Avatar"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="20dp" />
 
         <EditText
@@ -31,17 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre"
-            android:textColorHint="#888888"
-            android:padding="12dp"
-            android:layout_marginTop="10dp"
-            android:background="@android:drawable/edit_text" />
-
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Correo"
-            android:textColorHint="#888888"
+            android:textColorHint="@color/colorPrimary"
+            android:backgroundTint="@color/black"
             android:padding="12dp"
             android:layout_marginTop="10dp"
             android:background="@android:drawable/edit_text" />
@@ -51,6 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar Cambios"
+            android:backgroundTint="@color/colorPrimaryVariant"
+            android:textColor="@android:color/black"
             android:layout_marginTop="20dp" />
 
     </LinearLayout>

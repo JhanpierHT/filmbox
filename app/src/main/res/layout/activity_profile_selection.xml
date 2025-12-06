@@ -2,50 +2,51 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/ProfileSelection">
 
-    <!-- Imagen de fondo -->
     <ImageView
         android:id="@+id/headerImage"
         android:layout_width="0dp"
         android:layout_height="350dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile_avatar3"
+        android:src="@drawable/welcome_image2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" /> <ImageView
+    android:id="@+id/imageGradient"
+    android:layout_width="0dp"
+    android:layout_height="350dp"
+    android:src="@drawable/gradient_bottom"
+    android:scaleType="fitXY"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" /> <ImageView
+    android:id="@+id/logo"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    android:layout_marginTop="32dp"
+    android:src="@drawable/logo_filmbox"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/> <TextView
+    android:id="@+id/whoIsWatchingText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
+    android:text="@string/who_s_watching"
+    android:textColor="@android:color/white"
+    android:textSize="26sp"
+    android:textStyle="bold"
+    app:layout_constraintTop_toBottomOf="@id/logo"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Degradado superior -->
-    <ImageView
-        android:id="@+id/imageGradient"
-        android:layout_width="0dp"
-        android:layout_height="350dp"
-        android:src="@drawable/gradient_bottom"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Texto principal -->
-    <TextView
-        android:id="@+id/whoIsWatchingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/who_s_watching"
-        android:textSize="26sp"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:layout_marginTop="-150dp"
-        app:layout_constraintTop_toBottomOf="@id/imageGradient"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Contenedor horizontal para perfiles -->
     <LinearLayout
-        android:id="@+id/profilesContainer"
-        android:layout_width="0dp"
+        android:id="@+id/containerProfiles"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
@@ -53,77 +54,50 @@
         android:paddingHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@id/whoIsWatchingText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Perfil 1 -->
-        <FrameLayout
-            android:id="@+id/profile1"
-            android:layout_width="140dp"
-            android:layout_height="180dp"
-            android:layout_marginEnd="16dp">
+    <LinearLayout
+        android:id="@+id/addProfile"
+        android:layout_width="140dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_add_profile_rounded"
+        android:clipToOutline="true"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerProfiles">
 
-            <ImageView
-                android:id="@+id/profile1Image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile_avatar3"
-                android:background="@drawable/bg_profile_rounded"
-                android:clipToOutline="true" />
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@string/add_profile_icon"
+            android:src="@drawable/ic_add" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_gravity="bottom"
-                android:text="@string/profile_1"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:background="#80000000"
-                android:padding="4dp" />
-        </FrameLayout>
-
-        <!-- Botón Agregar Perfil -->
-        <LinearLayout
-            android:id="@+id/addProfile"
-            android:layout_width="140dp"
-            android:layout_height="180dp"
-            android:orientation="vertical"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center"
-            android:background="@drawable/bg_add_profile_rounded"
-            android:padding="16dp"
-            android:layout_marginStart="16dp"
-            android:elevation="4dp"
-            android:clipToOutline="true">
+            android:text="@string/add_profile"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/ic_add"
-                android:contentDescription="@string/add_profile_icon" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_profile"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:layout_marginTop="8dp"
-                android:gravity="center" />
-        </LinearLayout>
     </LinearLayout>
 
-    <!-- Contenedor de editar perfiles -->
     <LinearLayout
         android:id="@+id/editProfilesContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/profilesContainer"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/addProfile">
 
         <ImageView
             android:layout_width="24dp"
@@ -133,26 +107,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="@string/edit_profiles"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:layout_marginStart="8dp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
-    <!-- Logo (nuevo lugar entre perfiles y botones) -->
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/logo_two"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintTop_toBottomOf="@id/editProfilesContainer"
-        app:layout_constraintBottom_toTopOf="@id/buttonsContainer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Contenedor de botones inferiores -->
     <LinearLayout
         android:id="@+id/buttonsContainer"
         android:layout_width="0dp"
@@ -166,7 +126,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Botón Done con tu estilo personalizado -->
         <Button
             android:id="@+id/doneButton"
             android:layout_width="match_parent"
@@ -174,20 +133,15 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/btn_background_selector"
             android:textColor="@color/btn_text_color_selector"
-            android:gravity="center"
             android:text="@string/done" />
 
-        <!-- Botón Skip con tu estilo personalizado -->
         <Button
             android:id="@+id/skipButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_background_selector"
             android:textColor="@color/btn_text_color_selector"
-            android:gravity="center"
             android:text="@string/skip" />
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

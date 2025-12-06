@@ -37,8 +37,8 @@
                 android:layout_height="32dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_favorite_border"
-                android:tint="@color/red"
-                android:contentDescription="@string/favorito" />
+                android:contentDescription="@string/favorito"
+                card_view:tint="@color/red" />
 
             <ImageButton
                 android:id="@+id/btnMoreInfo"
@@ -46,9 +46,9 @@
                 android:layout_height="32dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_info"
-                android:tint="@color/colorPrimary"
                 android:layout_marginStart="8dp"
-                android:contentDescription="@string/mas_informaci_n" />
+                android:contentDescription="@string/mas_informaci_n"
+                card_view:tint="@color/colorPrimary" />
         </LinearLayout>
     </FrameLayout>
 </androidx.cardview.widget.CardView>

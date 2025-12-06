@@ -66,6 +66,7 @@
     <!-- RecyclerView de videos -->
 
     <!-- Barra de navegación inferior -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvVideoMovies"
         android:layout_width="match_parent"
@@ -78,7 +79,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topContainer"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/item_movie" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

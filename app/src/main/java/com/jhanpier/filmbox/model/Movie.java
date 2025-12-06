@@ -3,8 +3,6 @@ package com.jhanpier.filmbox.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Movie {
-
-    // ----------- Campos para API OMDb -----------
     @SerializedName("Title")
     private String title;
 
@@ -14,27 +12,33 @@ public class Movie {
     @SerializedName("Poster")
     private String imageUrl;
 
-    // ----------- Campos locales -----------
     private String description;
     private String authors;
     private String videoUrl;
-
     private String category;
 
-    // ----------- Constructor equivalente al data class de Kotlin -----------
-    public Movie(String title, String year, String description,
-                 String authors, String videoUrl, String imageUrl, String category) {
+    private int progress;
 
-        this.title = title != null ? title : "";
-        this.year = year != null ? year : "";
-        this.description = description != null ? description : "";
-        this.authors = authors != null ? authors : "";
-        this.videoUrl = videoUrl != null ? videoUrl : "";
-        this.imageUrl = imageUrl != null ? imageUrl : "";
-        this.category = category != null ? category : "";
+    public Movie(String title, String year, String description, String authors,
+                 String videoUrl, String imageUrl, String category, int progress) {
+        this.title = title;
+        this.year = year;
+        this.description = description;
+        this.authors = authors;
+        this.videoUrl = videoUrl;
+        this.imageUrl = imageUrl;
+        this.category = category;
+        this.progress = progress;
     }
 
-    // Constructor vacío opcional (útil para Firebase o Gson)
+
+
+    public Movie(String title, String year, String description, String authors,
+                 String videoUrl, String imageUrl, String category) {
+        this(title, year, description, authors, videoUrl, imageUrl, category, 0);
+    }
+
+
     public Movie() {
         this.title = "";
         this.year = "";
@@ -43,65 +47,25 @@ public class Movie {
         this.videoUrl = "";
         this.imageUrl = "";
         this.category = "";
+        this.progress = 0;
     }
 
-    // ----------- Getters -----------
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
+    public String getYear() { return year; }
+    public String getImageUrl() { return imageUrl; }
+    public String getDescription() { return description; }
+    public String getAuthors() { return authors; }
+    public String getVideoUrl() { return videoUrl; }
+    public String getCategory() { return category; }
+    public int getProgress() { return progress; }
 
-    public String getYear() {
-        return year;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getAuthors() {
-        return authors;
-    }
-
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    // ----------- Setters opcionales -----------
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAuthors(String authors) {
-        this.authors = authors;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public void setTitle(String title) { this.title = title; }
+    public void setYear(String year) { this.year = year; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public void setDescription(String description) { this.description = description; }
+    public void setAuthors(String authors) { this.authors = authors; }
+    public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
+    public void setCategory(String category) { this.category = category; }
+    public void setProgress(int progress) { this.progress = progress; }
 }

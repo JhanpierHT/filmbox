@@ -28,7 +28,6 @@ public class ProfileDatabaseHelper extends SQLiteOpenHelper {
                 COL_AVATAR + " INTEGER)";
         db.execSQL(CREATE_TABLE);
 
-        // Agregamos un perfil por defecto
         db.execSQL("INSERT INTO " + TABLE_PROFILES +
                 " ("+COL_NAME+", "+COL_AVATAR+") VALUES ('Profile 1', "+ R.drawable.profile_avatar3+")");
     }

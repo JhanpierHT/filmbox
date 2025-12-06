@@ -1,26 +1,30 @@
 package com.jhanpier.filmbox.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jhanpier.filmbox.R;
+import com.jhanpier.filmbox.model.Profile;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private EditText edtName, edtEmail;
-    private Button btnGuardar, btnCambiarFoto;
+    private EditText edtName;
+    private Button btnGuardar, btnCambiarAvatar;
     private ImageView imgAvatar;
-    private String avatarUri = "";
-    private static final int PICK_IMAGE = 100;
+
+    private static final int PICK_AVATAR = 200;
+
+    private boolean isNew = false;
+    private int editingProfileId = -1;
+
+    private int selectedAvatarResId = R.drawable.default_avatar; // avatar por defecto
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,94 +32,71 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         edtName = findViewById(R.id.edtName);
-        edtEmail = findViewById(R.id.edtEmail);
         btnGuardar = findViewById(R.id.btnGuardarCambios);
-        btnCambiarFoto = findViewById(R.id.btnCambiarFoto);
+        btnCambiarAvatar = findViewById(R.id.btnCambiarAvatar);
         imgAvatar = findViewById(R.id.imgAvatarEdit);
 
-        // Cargar datos guardados
-        SharedPreferences prefs = getSharedPreferences("perfil", MODE_PRIVATE);
-        edtName.setText(prefs.getString("nombre", ""));
-        edtEmail.setText(prefs.getString("correo", ""));
-        avatarUri = prefs.getString("avatar", "");
+        isNew = getIntent().getBooleanExtra("is_new", false);
+        editingProfileId = getIntent().getIntExtra("profile_id", -1);
 
-        // Mostrar avatar si aún tienes permisos
-        if (!avatarUri.isEmpty()) {
-            Uri savedUri = Uri.parse(avatarUri);
-
-            if (tienePermisoUri(savedUri)) {
-                imgAvatar.setImageURI(savedUri);
-            } else {
-                // Si ya no tienes permiso, no cargamos la imagen
-                avatarUri = "";
-            }
+        if (!isNew && editingProfileId != -1) {
+            cargarPerfil();
         }
 
-        // Abrir selector de fotos
-        btnCambiarFoto.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.setType("image/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-            // Flags válidos
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-
-            startActivityForResult(intent, PICK_IMAGE);
-        });
-
+        btnCambiarAvatar.setOnClickListener(v -> abrirSelectorAvatares());
         btnGuardar.setOnClickListener(v -> guardarPerfil());
     }
 
-    private boolean tienePermisoUri(Uri uri) {
-        try {
-            getContentResolver().openInputStream(uri).close();
-            return true;
-        } catch (Exception e) {
-            return false;
+    private void cargarPerfil() {
+        Profile p = ProfileManager.getProfileById(this, editingProfileId);
+        if (p == null) return;
+
+        edtName.setText(p.getName());
+        selectedAvatarResId = p.getAvatarResId();
+
+        imgAvatar.setImageResource(selectedAvatarResId);
+    }
+
+    private void abrirSelectorAvatares() {
+        Intent i = new Intent(this, AvatarSelectorActivity.class);
+        startActivityForResult(i, PICK_AVATAR);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_AVATAR && resultCode == RESULT_OK && data != null) {
+            selectedAvatarResId = data.getIntExtra("avatarResId", R.drawable.default_avatar);
+            imgAvatar.setImageResource(selectedAvatarResId);
         }
     }
 
     private void guardarPerfil() {
-        SharedPreferences prefs = getSharedPreferences("perfil", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        String name = edtName.getText().toString().trim();
 
-        editor.putString("nombre", edtName.getText().toString());
-        editor.putString("correo", edtEmail.getText().toString());
-        editor.putString("avatar", avatarUri);
+        if (name.isEmpty()) {
+            Toast.makeText(this, "Ingresa un nombre", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        editor.apply();
+        if (isNew) {
+            Profile nuevo = new Profile();
+            nuevo.setName(name);
+            nuevo.setAvatarResId(selectedAvatarResId);
 
-        Toast.makeText(this, "Perfil actualizado", Toast.LENGTH_SHORT).show();
-        finish();
-    }
+            ProfileManager.addProfile(this, nuevo);
+        } else {
+            Profile p = ProfileManager.getProfileById(this, editingProfileId);
+            if (p != null) {
+                p.setName(name);
+                p.setAvatarResId(selectedAvatarResId);
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-
-            if (data != null && data.getData() != null) {
-
-                Uri uri = data.getData();
-                avatarUri = uri.toString();
-
-                // Guardar permisos persistentes
-                try {
-                    final int flags = data.getFlags()
-                            & (Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                    getContentResolver().takePersistableUriPermission(
-                            uri,
-                            flags
-                    );
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                imgAvatar.setImageURI(uri);
+                ProfileManager.updateProfile(this, p);
             }
         }
+
+        Toast.makeText(this, "Perfil guardado", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
